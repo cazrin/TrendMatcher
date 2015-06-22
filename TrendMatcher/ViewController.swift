@@ -1,6 +1,9 @@
 import UIKit
 
 class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource {
+    @IBOutlet weak var descriptorCollectionView : UICollectionView!
+    @IBOutlet weak var itemCollectionView : UICollectionView!
+    
     var items : [UIColor] = []
     var lastContentOffsetX = CGFloat(FLT_MIN)
     
@@ -12,7 +15,7 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     // MARK - UICollectionViewDelegateFlowLayout
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return collectionView.frame.size
+        return collectionView.bounds.size
     }
     
     // MARK: - UICollectionViewDataSource
@@ -43,7 +46,12 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         let pageWidth = scrollView.frame.size.width
         let offset = pageWidth * CGFloat(items.count - 2)
         
-        if currentOffsetX < pageWidth && lastContentOffsetX > currentOffsetX {
+        if lastContentOffsetX == CGFloat(FLT_MIN) {
+            lastContentOffsetX = currentOffsetX;
+            return;
+        }
+        
+        if currentOffsetX < CGFloat(FLT_MIN) && lastContentOffsetX > currentOffsetX {
             // first page is visible and user is scrolling to the left
             lastContentOffsetX = currentOffsetX + offset
             scrollView.contentOffset = CGPointMake(lastContentOffsetX, currentOffsetY)
