@@ -12,6 +12,9 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     var items : [UIColor] = []
     var lastContentOffsets = [0, CGFloat(FLT_MIN), CGFloat(FLT_MIN)]
     
+    var descriptorCollectionViewIndexPathForDeviceOrientation : NSIndexPath? = nil
+    var itemCollectionViewIndexPathForDeviceOrientation : NSIndexPath? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -115,6 +118,26 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
+    }
+    
+    // MARK - UIInterfaceOrientation
+    
+    override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
+        descriptorCollectionViewIndexPathForDeviceOrientation = self.descriptorCollectionView.indexPathsForVisibleItems().first as? NSIndexPath
+        itemCollectionViewIndexPathForDeviceOrientation = self.itemCollectionView.indexPathsForVisibleItems().first as? NSIndexPath
+        
+        self.descriptorCollectionView.collectionViewLayout.invalidateLayout()
+        self.itemCollectionView.collectionViewLayout.invalidateLayout()
+    }
+    
+    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
+        if let descriptorIndexPath = self.descriptorCollectionViewIndexPathForDeviceOrientation {
+            self.descriptorCollectionView.scrollToItemAtIndexPath(descriptorIndexPath, atScrollPosition: .Left, animated: false)
+        }
+        
+        if let itemIndexPath = self.itemCollectionViewIndexPathForDeviceOrientation {
+            self.itemCollectionView.scrollToItemAtIndexPath(itemIndexPath, atScrollPosition: .Left, animated: false)
+        }
     }
     
     // MARK - Private
