@@ -4,12 +4,21 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     @IBOutlet weak var descriptorCollectionView : UICollectionView!
     @IBOutlet weak var itemCollectionView : UICollectionView!
     
+    let descriptorCollectionViewTag = 1
+    let itemCollectionViewTag = 2
+    
     var items : [UIColor] = []
-    var lastContentOffsetX = CGFloat(FLT_MIN)
+    var lastContentOffsets = [0, CGFloat(FLT_MIN), CGFloat(FLT_MIN)]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpData()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        self.descriptorCollectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: 1, inSection: 0), atScrollPosition: .Left, animated: false)
+        self.itemCollectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: 1, inSection: 0), atScrollPosition: .Left, animated: false)
     }
     
     // MARK - UICollectionViewDelegateFlowLayout
@@ -46,21 +55,21 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         let pageWidth = scrollView.frame.size.width
         let offset = pageWidth * CGFloat(items.count - 2)
         
-        if lastContentOffsetX == CGFloat(FLT_MIN) {
-            lastContentOffsetX = currentOffsetX;
+        if lastContentOffsets[scrollView.tag] == CGFloat(FLT_MIN) {
+            lastContentOffsets[scrollView.tag] = currentOffsetX;
             return;
         }
         
-        if currentOffsetX < CGFloat(FLT_MIN) && lastContentOffsetX > currentOffsetX {
+        if currentOffsetX < CGFloat(FLT_MIN) && lastContentOffsets[scrollView.tag] > currentOffsetX {
             // first page is visible and user is scrolling to the left
-            lastContentOffsetX = currentOffsetX + offset
-            scrollView.contentOffset = CGPointMake(lastContentOffsetX, currentOffsetY)
-        } else if currentOffsetX > offset && lastContentOffsetX < currentOffsetX {
+            lastContentOffsets[scrollView.tag] = currentOffsetX + offset
+            scrollView.contentOffset = CGPointMake(lastContentOffsets[scrollView.tag], currentOffsetY)
+        } else if currentOffsetX > offset && lastContentOffsets[scrollView.tag] < currentOffsetX {
             // last page is visible and user is scrolling to the right
-            lastContentOffsetX = currentOffsetX - offset
-            scrollView.contentOffset = CGPointMake(lastContentOffsetX, currentOffsetY)
+            lastContentOffsets[scrollView.tag] = currentOffsetX - offset
+            scrollView.contentOffset = CGPointMake(lastContentOffsets[scrollView.tag], currentOffsetY)
         } else {
-            lastContentOffsetX = currentOffsetX
+            lastContentOffsets[scrollView.tag] = currentOffsetX
         }
     }
     
