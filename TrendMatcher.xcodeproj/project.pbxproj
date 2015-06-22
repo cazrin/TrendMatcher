@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		740F00BE1B38979200F76707 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740F00BD1B38979200F76707 /* DetailViewController.swift */; };
 		74A7E5AA1B346C5200AC8E4F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A7E5A91B346C5200AC8E4F /* AppDelegate.swift */; };
 		74A7E5AC1B346C5200AC8E4F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A7E5AB1B346C5200AC8E4F /* ViewController.swift */; };
 		74A7E5AF1B346C5200AC8E4F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74A7E5AD1B346C5200AC8E4F /* Main.storyboard */; };
@@ -26,6 +27,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		740F00BD1B38979200F76707 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailViewController.swift; path = ../DetailViewController.swift; sourceTree = "<group>"; };
 		74A7E5A41B346C5200AC8E4F /* TrendMatcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrendMatcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74A7E5A81B346C5200AC8E4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		74A7E5A91B346C5200AC8E4F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				74A7E5A91B346C5200AC8E4F /* AppDelegate.swift */,
+				740F00BD1B38979200F76707 /* DetailViewController.swift */,
 				74A7E5B01B346C5200AC8E4F /* Images.xcassets */,
 				74A7E5B21B346C5200AC8E4F /* LaunchScreen.xib */,
 				74A7E5AD1B346C5200AC8E4F /* Main.storyboard */,
@@ -212,6 +215,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				740F00BE1B38979200F76707 /* DetailViewController.swift in Sources */,
 				74A7E5AC1B346C5200AC8E4F /* ViewController.swift in Sources */,
 				74A7E5AA1B346C5200AC8E4F /* AppDelegate.swift in Sources */,
 			);
@@ -411,6 +415,7 @@
 				74A7E5C51B346C5200AC8E4F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		74A7E5C61B346C5200AC8E4F /* Build configuration list for PBXNativeTarget "TrendMatcherTests" */ = {
 			isa = XCConfigurationList;
@@ -419,6 +424,7 @@
 				74A7E5C81B346C5200AC8E4F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

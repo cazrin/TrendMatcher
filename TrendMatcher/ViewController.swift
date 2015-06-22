@@ -1,8 +1,10 @@
 import UIKit
 
-class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource {
+class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate {
     @IBOutlet weak var descriptorCollectionView : UICollectionView!
     @IBOutlet weak var itemCollectionView : UICollectionView!
+    
+    var moveToFirstPages : Bool = true
     
     let descriptorCollectionViewTag = 1
     let itemCollectionViewTag = 2
@@ -12,16 +14,51 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationController?.navigationBarHidden = true
         setUpData()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.descriptorCollectionView.collectionViewLayout.invalidateLayout()
+        self.itemCollectionView.collectionViewLayout.invalidateLayout()
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        scrollToPage(descriptorCollectionView, page: 1, animated: false)
-        scrollToPage(itemCollectionView, page: 1, animated: false)
+        if moveToFirstPages {
+            scrollToPage(descriptorCollectionView, page: 1, animated: false)
+            scrollToPage(itemCollectionView, page: 1, animated: false)
+            moveToFirstPages = false
+        }
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.view.transform = CGAffineTransformIdentity
     }
 
+    @IBAction func handleLongPress(sender: UILongPressGestureRecognizer) {
+        UIView.animateWithDuration(0.2) {
+            if sender.state == .Began {
+                UIApplication.sharedApplication().setStatusBarStyle(.LightContent, animated: true)
+                self.view.transform = CGAffineTransformMakeScale(0.92, 0.92)
+            } else if sender.state == .Ended {
+                UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true)
+                self.view.transform = CGAffineTransformMakeScale(1, 1)
+            }
+        }
+    }
+    
+    @IBAction func handleLongerPress(sender: UILongPressGestureRecognizer) {
+        if sender.state == .Began {
+            self.performSegueWithIdentifier("showSelection", sender: self)
+        }
+    }
+    
     // MARK - UICollectionViewDelegateFlowLayout
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
@@ -72,6 +109,12 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         } else {
             lastContentOffsets[scrollView.tag] = currentOffsetX
         }
+    }
+    
+    // MARK - UIGestureRecognizerDelegate
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
     
     // MARK - Private
