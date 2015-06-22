@@ -17,10 +17,11 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        self.descriptorCollectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: 1, inSection: 0), atScrollPosition: .Left, animated: false)
-        self.itemCollectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: 1, inSection: 0), atScrollPosition: .Left, animated: false)
+        
+        scrollToPage(descriptorCollectionView, page: 1, animated: false)
+        scrollToPage(itemCollectionView, page: 1, animated: false)
     }
-    
+
     // MARK - UICollectionViewDelegateFlowLayout
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
@@ -74,6 +75,10 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     }
     
     // MARK - Private
+    
+    func scrollToPage(collectionView: UICollectionView, page: Int, animated: Bool) {
+        collectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: page, inSection: 0), atScrollPosition: .Left, animated: animated)
+    }
     
     func setUpData() {
         items = [UIColor.redColor(), UIColor.blueColor(), UIColor.greenColor(), UIColor.blackColor(), UIColor.yellowColor()]
